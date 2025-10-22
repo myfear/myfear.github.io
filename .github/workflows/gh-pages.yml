@@ -1,0 +1,26 @@
+name: Deploy GitHub Pages
+
+on:
+  push:
+    branches:
+      - main  # Trigger the action on pushes to the main branch
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # This is the official Roq action to generate and deploy the site
+      - name: Build and Deploy Roq Site
+        uses: quarkiverse/quarkus-roq@main
+        with:
+          # This token is required to push to the gh-pages branch
+          token: ${{ secrets.GITHUB_TOKEN }}
